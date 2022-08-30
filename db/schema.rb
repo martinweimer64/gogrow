@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_30_144543) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_30_161833) do
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -26,4 +26,37 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_30_144543) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products_sales", id: false, force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "sale_id", null: false
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.string "code"
+    t.datetime "order_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vendor_id"
+    t.integer "buyer_id"
+    t.index ["buyer_id"], name: "index_sales_on_buyer_id"
+    t.index ["vendor_id"], name: "index_sales_on_vendor_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "sales", "users", column: "buyer_id"
+  add_foreign_key "sales", "users", column: "vendor_id"
 end
