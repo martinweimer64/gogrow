@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :sales
-  resources :products
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :users, only:[]
+  resources :sales, only:[]
+  resources :products, only:[]
+  
+  post "/upload_sales", to: "attachments#upload_sales"
 end
